@@ -1,9 +1,9 @@
 use crate::frame::{Drawable, Frame};
 
 pub struct Shot {
-    x: usize,
-    y: usize,
-    exploding: bool,
+    pub x: usize,
+    pub y: usize,
+    pub exploding: bool,
 }
 
 impl Shot {
@@ -28,7 +28,7 @@ impl Shot {
     }
 
     pub fn dead(&self) -> bool {
-        self.y <= 0
+        self.y <= 0 || self.exploding
     }
 }
 

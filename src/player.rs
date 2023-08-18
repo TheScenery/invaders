@@ -1,5 +1,6 @@
 use crate::{NUM_COLS, NUM_ROWS};
 use crate::frame::{Drawable, Frame};
+use crate::invaders::Invaders;
 use crate::shot::Shot;
 
 pub struct Player {
@@ -43,6 +44,19 @@ impl Player {
             shot.update();
         }
         self.shots.retain(|shot| !shot.dead())
+    }
+
+    pub fn detect_hits(&mut self, invaders: &mut Invaders) -> bool {
+        let mut hit_something = false;
+        for shot in self.shots.iter_mut() {
+            if !shot.exploding {
+                if invaders.kill_invader_at(shot.x, shot.y) {
+                    hit_something = true;
+                    shot.explode();
+                }
+            }
+        }
+        hit_something
     }
 }
 
