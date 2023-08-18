@@ -1,7 +1,7 @@
 use std::error::Error;
 use std::{io, thread};
 use std::sync::mpsc;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 use crossterm::{event, ExecutableCommand, terminal};
 use crossterm::cursor::{Hide, Show};
 use crossterm::event::{Event, KeyCode};
@@ -50,10 +50,13 @@ fn main() -> Result<(), Box<dyn Error>>{
 
     let mut player = Player::new();
     let mut invaders = Invaders::new();
+    let mut instant = Instant::now();
     //Game loop
     'gameloop: loop {
         // per frame init
         let mut current_frame = frame::new_frame();
+        let delta = instant.elapsed();
+        instant = Instant::now();
 
 
         while event::poll(Duration::default())? {
@@ -81,7 +84,7 @@ fn main() -> Result<(), Box<dyn Error>>{
 
         //Update
         player.update();
-        if invaders.update() {
+        if invaders.update(delta) {
             audio.play("move");
         }
 
