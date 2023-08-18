@@ -74,7 +74,7 @@ fn main() -> Result<(), Box<dyn Error>>{
                     }
                     KeyCode::Char(' ') => {
                         if player.shot() {
-                            audio.play("pew")
+                            audio.play("pew");
                         }
                     }
                     _ => {}
@@ -83,12 +83,13 @@ fn main() -> Result<(), Box<dyn Error>>{
         }
 
         //Update
-        player.update();
-        if invaders.update(delta) {
-            audio.play("move");
-        }
         if player.detect_hits(&mut invaders) {
             audio.play("explode");
+        }
+
+        player.update(delta);
+        if invaders.update(delta) {
+            audio.play("move");
         }
 
         // Draw and render section

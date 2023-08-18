@@ -1,3 +1,4 @@
+use std::time::Duration;
 use crate::{NUM_COLS, NUM_ROWS};
 use crate::frame::{Drawable, Frame};
 use crate::invaders::Invaders;
@@ -6,7 +7,7 @@ use crate::shot::Shot;
 pub struct Player {
     x: usize,
     y: usize,
-    shots: Vec<Shot>
+    pub shots: Vec<Shot>
 }
 
 impl Player {
@@ -31,7 +32,7 @@ impl Player {
     }
 
     pub fn shot(&mut self) -> bool {
-        if self.shots.len() <= 2 {
+        if self.shots.len() < 1 {
             self.shots.push(Shot::new(self.x, self.y -1));
             true
         } else {
@@ -39,9 +40,9 @@ impl Player {
         }
     }
 
-    pub fn update(&mut self) {
+    pub fn update(&mut self, duration: Duration) {
         for shot in self.shots.iter_mut() {
-            shot.update();
+            shot.update(duration);
         }
         self.shots.retain(|shot| !shot.dead())
     }
