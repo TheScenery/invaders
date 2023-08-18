@@ -1,3 +1,3 @@
 # invaders
 
-an terminal invaders game for learn rust
+A terminal invaders game for learn rust
